@@ -3,7 +3,7 @@ export const quantBytesPerParam: Record<string, number> = {
   'F16': 2.0,
   'BF16': 2.0,
   'Q8_0': 1.0,
-  'Q6_K': 0.75,
+  'Q6_K': 0.8,
   'Q5_K_M': 0.625,
   'Q5_K_S': 0.625,
   'Q5_0': 0.625,
@@ -23,7 +23,7 @@ export const quantBytesPerParam: Record<string, number> = {
   'IQ2_M': 0.25,
   'IQ2_XS': 0.25,
   'IQ1_M': 0.1875,
-  'IQ1_S': 0.125,
+  'IQ1_S': 0.195,
 }
 
 /**
