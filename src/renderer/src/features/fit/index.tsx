@@ -1,4 +1,5 @@
 import { useAppStore } from '@renderer/state/store'
+import { useShallow } from 'zustand/react/shallow'
 import { Badge } from '@renderer/components/ui/badge'
 import {
   Tooltip,
@@ -29,7 +30,9 @@ function getLabel(
 }
 
 export default function FitBadge(): JSX.Element {
-  const { estimatedVramMB, ratio } = useAppStore((s) => s.fitEstimate())
+  const { estimatedVramMB, ratio } = useAppStore(
+    useShallow((s) => s.fitEstimate())
+  )
   const hardware = useAppStore((s) => s.hardware)
 
   const label = getLabel(estimatedVramMB, hardware?.gpu.vramMB)

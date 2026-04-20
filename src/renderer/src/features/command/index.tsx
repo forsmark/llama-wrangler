@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useAppStore } from '@renderer/state/store'
 import { llamaParams } from '@renderer/data/llama-params'
 import { validateParam } from '@renderer/lib/validate'
@@ -27,6 +27,7 @@ export default function CommandPanel(): JSX.Element {
 
   const [activeTab, setActiveTab] = useState<'single' | 'multi'>('single')
   const [copied, setCopied] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const invalid = hasInvalidParams(params)
   const currentCommand = activeTab === 'single' ? singleCommand : multiCommand
@@ -35,8 +36,15 @@ export default function CommandPanel(): JSX.Element {
   async function handleCopy(): Promise<void> {
     await window.api.copyToClipboard(currentCommand)
     setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => setCopied(false), 2000)
   }
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   return (
     <div className="space-y-3">

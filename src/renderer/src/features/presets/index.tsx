@@ -1,9 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAppStore } from '@renderer/state/store'
 import type { Preset } from '@shared/types'
+import { parseGgufFilename } from '@renderer/lib/parse-gguf-name'
 import { Button } from '@renderer/components/ui/button'
 import { Input } from '@renderer/components/ui/input'
 import { Label } from '@renderer/components/ui/label'
+
+function isPreset(x: unknown): x is Preset {
+  return (
+    typeof x === 'object' && x !== null &&
+    typeof (x as Preset).id === 'string' &&
+    typeof (x as Preset).name === 'string' &&
+    typeof (x as Preset).ggufPath === 'string' &&
+    typeof (x as Preset).createdAt === 'string' &&
+    typeof (x as Preset).params === 'object'
+  )
+}
 
 function ggufBasename(ggufPath: string): string {
   return ggufPath.split('/').pop() ?? ggufPath
@@ -38,7 +50,7 @@ export default function PresetsPanel(): JSX.Element {
     if (!name) return
 
     const preset: Preset = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       name,
       ggufPath: selectedModel.path ?? '',
       params: { ...params },
@@ -55,7 +67,12 @@ export default function PresetsPanel(): JSX.Element {
     for (const [flag, value] of Object.entries(preset.params)) {
       setParam(flag, value)
     }
-    setSelectedModel({ path: preset.ggufPath, sizeBillion: null, quant: null })
+    const parsed = parseGgufFilename(preset.ggufPath)
+    setSelectedModel({
+      path: preset.ggufPath,
+      sizeBillion: parsed.sizeBillion,
+      quant: parsed.quant,
+    })
   }
 
   function handleDelete(id: string): void {
@@ -71,8 +88,10 @@ export default function PresetsPanel(): JSX.Element {
     const a = document.createElement('a')
     a.href = url
     a.download = 'llama-presets.json'
+    document.body.appendChild(a)
     a.click()
-    URL.revokeObjectURL(url)
+    document.body.removeChild(a)
+    setTimeout(() => URL.revokeObjectURL(url), 100)
   }
 
   function handleImport(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -83,11 +102,11 @@ export default function PresetsPanel(): JSX.Element {
     reader.onload = (ev) => {
       try {
         const parsed = JSON.parse(ev.target?.result as string)
-        if (!Array.isArray(parsed)) {
-          console.error('Import failed: expected JSON array')
+        if (!Array.isArray(parsed) || !parsed.every(isPreset)) {
+          console.error('Import failed: invalid preset format')
           return
         }
-        const merged = [...presets, ...(parsed as Preset[])]
+        const merged = [...presets, ...parsed]
         setPresets(merged)
         window.api.writePresets(merged).catch(console.error)
       } catch (err) {
