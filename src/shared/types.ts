@@ -5,7 +5,7 @@ export interface HardwareInfo {
   gpu: {
     name: string | null
     vramMB: number | null
-    arch: 'nvidia' | 'amd' | 'vulkan' | 'none'
+    arch: 'nvidia' | 'amd' | 'vulkan' | 'apple' | 'none'
     computeCap: string | null  // NVIDIA compute capability, e.g. "8.6"
   }
   ramMB: number

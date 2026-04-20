@@ -15,6 +15,7 @@ const ARCH_LABELS: Record<HardwareInfo['gpu']['arch'], string> = {
   nvidia: 'NVIDIA',
   amd: 'AMD',
   vulkan: 'Vulkan',
+  apple: 'Metal',
   none: 'CPU',
 }
 
@@ -22,6 +23,7 @@ const ARCH_COLORS: Record<HardwareInfo['gpu']['arch'], string> = {
   nvidia: 'bg-green-700 text-green-100',
   amd: 'bg-red-700 text-red-100',
   vulkan: 'bg-purple-700 text-purple-100',
+  apple: 'bg-zinc-700 text-zinc-100',
   none: 'bg-zinc-600 text-zinc-100',
 }
 

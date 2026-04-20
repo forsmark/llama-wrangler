@@ -10,29 +10,31 @@ export interface SystemInfo {
 }
 
 export async function detectSystem(): Promise<SystemInfo> {
-  const [meminfo, nproc, whichLlama] = await Promise.allSettled([
-    execAsync('cat /proc/meminfo', { timeout: 5000 }),
-    execAsync('nproc', { timeout: 5000 }),
+  const isMac = process.platform === 'darwin'
+
+  const [ramResult, cpuResult, whichLlama] = await Promise.allSettled([
+    execAsync(isMac ? 'sysctl -n hw.memsize' : 'cat /proc/meminfo', { timeout: 5000 }),
+    execAsync(isMac ? 'sysctl -n hw.logicalcpu' : 'nproc', { timeout: 5000 }),
     execAsync('which llama-server', { timeout: 5000 })
   ])
 
-  // Parse RAM from /proc/meminfo
   let ramMB = 0
-  if (meminfo.status === 'fulfilled') {
-    const match = meminfo.value.stdout.match(/MemTotal:\s+(\d+)\s+kB/)
-    if (match) {
-      ramMB = Math.round(parseInt(match[1], 10) / 1024)
+  if (ramResult.status === 'fulfilled') {
+    if (isMac) {
+      const bytes = parseInt(ramResult.value.stdout.trim(), 10)
+      if (!isNaN(bytes)) ramMB = Math.round(bytes / (1024 * 1024))
+    } else {
+      const match = ramResult.value.stdout.match(/MemTotal:\s+(\d+)\s+kB/)
+      if (match) ramMB = Math.round(parseInt(match[1], 10) / 1024)
     }
   }
 
-  // Parse CPU thread count
   let cpuThreads = 1
-  if (nproc.status === 'fulfilled') {
-    const parsed = parseInt(nproc.value.stdout.trim(), 10)
+  if (cpuResult.status === 'fulfilled') {
+    const parsed = parseInt(cpuResult.value.stdout.trim(), 10)
     if (!isNaN(parsed)) cpuThreads = parsed
   }
 
-  // Resolve llama-server path
   let llamaServerPath: string | null = null
   if (whichLlama.status === 'fulfilled') {
     const trimmed = whichLlama.value.stdout.trim()
