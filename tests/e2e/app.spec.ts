@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { _electron as electron } from 'playwright'
 import { join } from 'path'
 
-test.describe('llama-cpp-cmd-builder', () => {
+test.describe('llama-wrangler', () => {
   test('app launches and shows main UI', async () => {
     // Launch the built Electron app
     const electronApp = await electron.launch({
@@ -12,7 +12,7 @@ test.describe('llama-cpp-cmd-builder', () => {
     const window = await electronApp.firstWindow()
 
     // Check title
-    await expect(window.locator('h1')).toContainText('llama-cpp-cmd-builder')
+    await expect(window.locator('h1')).toContainText('llama-wrangler')
 
     // Check major UI sections are present
     await expect(window.locator('text=Hardware')).toBeVisible()

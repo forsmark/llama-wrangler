@@ -1,4 +1,4 @@
-# llama-cpp-cmd-builder
+# Llama Wrangler
 
 Electron desktop app for building `llama-server` (llama.cpp) launch commands without hand-crafting long flag strings.
 

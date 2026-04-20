@@ -1,5 +1,5 @@
 {
-  "name": "llama-cpp-cmd-builder",
+  "name": "llama-wrangler",
   "version": "0.1.0",
   "description": "A GUI command builder for llama.cpp inference parameters",
   "main": "./out/main/index.js",

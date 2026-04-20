@@ -62,7 +62,7 @@ export default function App(): JSX.Element {
         {/* Header */}
         <header className="flex items-center justify-between px-4 py-3 border-b border-border shrink-0">
           <h1 className="text-base font-semibold tracking-tight text-foreground">
-            llama-cpp-cmd-builder
+            Llama Wrangler
           </h1>
           <FitBadge />
         </header>

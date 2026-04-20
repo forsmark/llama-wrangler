@@ -1,0 +1,139 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "llama-cpp-cmd-builder" [level=1] [ref=e5]
+    - generic [ref=e6]: "VRAM: unknown — select model"
+  - generic [ref=e7]:
+    - complementary [ref=e8]:
+      - generic [ref=e10]:
+        - heading "Hardware" [level=2] [ref=e11]
+        - generic [ref=e12]:
+          - generic [ref=e13]:
+            - generic [ref=e14]:
+              - generic [ref=e15]: GPU
+              - generic [ref=e16]: NVIDIA GeForce RTX 4090
+              - generic [ref=e17]: "VRAM: 24.0 GB"
+            - generic [ref=e18]: NVIDIA
+          - generic [ref=e19]:
+            - generic [ref=e20]: RAM
+            - generic [ref=e21]: 64 GB
+          - generic [ref=e22]:
+            - generic [ref=e23]: CPU Threads
+            - generic [ref=e24]: "16"
+          - generic [ref=e25]:
+            - generic [ref=e26]: llama-server path
+            - generic [ref=e27]: /usr/local/bin/llama-server
+        - button "Manual Override" [ref=e29]:
+          - text: Manual Override
+          - img
+      - generic [ref=e30]:
+        - heading "Model" [level=2] [ref=e31]
+        - button "Pick GGUF Model" [ref=e32]:
+          - img
+          - text: Pick GGUF Model
+        - generic [ref=e33]:
+          - img [ref=e34]
+          - text: No model selected
+      - generic [ref=e37]:
+        - heading "Presets" [level=2] [ref=e38]
+        - generic [ref=e39]:
+          - generic [ref=e40]: Preset Name
+          - generic [ref=e41]:
+            - textbox "Preset Name" [ref=e42]:
+              - /placeholder: e.g. Llama 3 8B fast
+            - button "Save" [disabled]
+        - paragraph [ref=e44]: No presets saved yet.
+        - generic [ref=e45]:
+          - button "Export" [disabled]
+          - button "Import" [ref=e46]
+    - main [ref=e47]:
+      - generic [ref=e48]:
+        - heading "Command Preview" [level=2] [ref=e49]
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - tablist [ref=e52]:
+              - tab "Single Line" [ref=e53]
+              - tab "Multi Line" [active] [selected] [ref=e54]
+            - button "Copy" [ref=e55]
+          - tabpanel "Multi Line" [ref=e141]:
+            - generic [ref=e142]: /usr/local/bin/llama-server \ --ctx-size 8192 \ --n-gpu-layers 99 \ --flash-attn
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - heading "Parameters" [level=2] [ref=e60]
+          - button "Reset" [ref=e61]:
+            - img
+            - text: Reset
+        - generic [ref=e62]:
+          - generic [ref=e64]:
+            - generic [ref=e65]: Model path
+            - textbox "Model path" [ref=e66]:
+              - /placeholder: ""
+            - paragraph [ref=e67]: Path to the GGUF model file
+          - generic [ref=e69]:
+            - generic [ref=e70]: Context size
+            - spinbutton "Context size" [ref=e71]: "8192"
+            - paragraph [ref=e72]: Size of the prompt context window in tokens
+          - generic [ref=e74]:
+            - generic [ref=e75]: GPU layers
+            - spinbutton "GPU layers" [ref=e76]: "99"
+            - paragraph [ref=e77]: Number of layers to offload to GPU (-1 = offload all layers)
+          - generic [ref=e79]:
+            - generic [ref=e80]: Threads
+            - spinbutton "Threads" [ref=e81]
+            - paragraph [ref=e82]: Number of CPU threads (-1 = auto-detect)
+          - generic [ref=e84]:
+            - generic [ref=e85]: Host
+            - textbox "Host" [ref=e86]:
+              - /placeholder: 127.0.0.1
+              - text: 127.0.0.1
+            - paragraph [ref=e87]: IP address to listen on
+          - generic [ref=e89]:
+            - generic [ref=e90]: Port
+            - spinbutton "Port" [ref=e91]: "8080"
+            - paragraph [ref=e92]: Port number to listen on
+          - generic [ref=e94]:
+            - generic [ref=e95]: Batch size
+            - spinbutton "Batch size" [ref=e96]: "512"
+            - paragraph [ref=e97]: Logical maximum batch size for prompt processing
+          - generic [ref=e99]:
+            - generic [ref=e100]: Parallel requests
+            - spinbutton "Parallel requests" [ref=e101]: "1"
+            - paragraph [ref=e102]: Number of parallel request slots
+          - generic [ref=e104]:
+            - checkbox "Flash attention" [checked] [ref=e105]:
+              - generic:
+                - img
+            - generic [ref=e106]:
+              - generic [ref=e107] [cursor=pointer]: Flash attention
+              - paragraph [ref=e108]: Enable flash attention for faster inference
+          - generic [ref=e110]:
+            - generic [ref=e111]: K cache type
+            - combobox "K cache type" [ref=e112]:
+              - generic: f16
+              - img
+            - paragraph [ref=e113]: Data type for the K cache
+          - generic [ref=e115]:
+            - generic [ref=e116]: V cache type
+            - combobox "V cache type" [ref=e117]:
+              - generic: f16
+              - img
+            - paragraph [ref=e118]: Data type for the V cache
+          - generic [ref=e120]:
+            - generic [ref=e121]: Max tokens to predict
+            - spinbutton "Max tokens to predict" [ref=e122]: "-1"
+            - paragraph [ref=e123]: Maximum number of tokens to generate (-1 = unlimited)
+          - generic [ref=e125]:
+            - generic [ref=e126]: Temperature
+            - spinbutton "Temperature" [ref=e127]: "0.8"
+            - paragraph [ref=e128]: Sampling temperature — higher = more random
+          - generic [ref=e130]:
+            - generic [ref=e131]: Top-K
+            - spinbutton "Top-K" [ref=e132]: "40"
+            - paragraph [ref=e133]: "Top-K sampling: limit to top K tokens (0 = disabled)"
+          - generic [ref=e135]:
+            - generic [ref=e136]: Top-P
+            - spinbutton "Top-P" [ref=e137]: "0.95"
+            - paragraph [ref=e138]: Top-P (nucleus) sampling threshold
+        - button "Show Advanced" [ref=e140]:
+          - img
+          - text: Show Advanced
+          - img
