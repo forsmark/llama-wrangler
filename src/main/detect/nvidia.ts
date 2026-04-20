@@ -12,7 +12,8 @@ export interface NvidiaInfo {
 export async function detectNvidia(): Promise<NvidiaInfo | null> {
   try {
     const { stdout } = await execAsync(
-      'nvidia-smi --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits'
+      'nvidia-smi --query-gpu=name,memory.total,compute_cap --format=csv,noheader,nounits',
+      { timeout: 5000 }
     )
 
     const firstLine = stdout.trim().split('\n')[0]

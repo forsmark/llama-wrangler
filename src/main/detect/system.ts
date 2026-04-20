@@ -11,9 +11,9 @@ export interface SystemInfo {
 
 export async function detectSystem(): Promise<SystemInfo> {
   const [meminfo, nproc, whichLlama] = await Promise.allSettled([
-    execAsync('cat /proc/meminfo'),
-    execAsync('nproc'),
-    execAsync('which llama-server')
+    execAsync('cat /proc/meminfo', { timeout: 5000 }),
+    execAsync('nproc', { timeout: 5000 }),
+    execAsync('which llama-server', { timeout: 5000 })
   ])
 
   // Parse RAM from /proc/meminfo

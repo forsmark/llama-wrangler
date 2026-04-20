@@ -21,6 +21,7 @@ export function registerHandlers(): void {
   })
 
   ipcMain.handle('write-presets', (_event, presets: Preset[]) => {
+    if (!Array.isArray(presets)) return
     return writeJson(presetsPath(), presets)
   })
 
@@ -29,10 +30,12 @@ export function registerHandlers(): void {
   })
 
   ipcMain.handle('write-settings', (_event, settings: Record<string, unknown>) => {
+    if (typeof settings !== 'object' || settings === null || Array.isArray(settings)) return
     return writeJson(settingsPath(), settings)
   })
 
   ipcMain.handle('copy-to-clipboard', (_event, text: string) => {
+    if (typeof text !== 'string') return
     clipboard.writeText(text)
   })
 }

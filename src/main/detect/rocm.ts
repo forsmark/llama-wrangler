@@ -10,7 +10,7 @@ export interface RocmInfo {
 
 export async function detectRocm(): Promise<RocmInfo | null> {
   try {
-    const { stdout } = await execAsync('rocm-smi --showmeminfo vram --showproductname')
+    const { stdout } = await execAsync('rocm-smi --showmeminfo vram --showproductname', { timeout: 5000 })
 
     const lines = stdout.split('\n')
 
