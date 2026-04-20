@@ -1,8 +1,51 @@
-.worktrees/
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Build output
 dist/
 out/
-.DS_Store
-*.local
+release/
+
+# Electron builder
+app-builds/
+*.AppImage
+*.deb
+*.rpm
+*.snap
+*.exe
+*.dmg
+*.pkg
+*.zip
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# Dev tooling artifacts
+.worktrees/
 .playwright-cli/
 .claude/
+test-results/
+playwright-report/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Misc
+*.local
+*.log
