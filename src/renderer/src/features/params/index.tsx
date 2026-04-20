@@ -26,6 +26,17 @@ function capitalizeFirst(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+const curatedParams = llamaParams.filter((p) => !p.advanced)
+const advancedParams = llamaParams.filter((p) => p.advanced)
+const advancedByGroup = GROUP_ORDER.reduce<Record<string, ParamDef[]>>(
+  (acc, group) => {
+    const inGroup = advancedParams.filter((p) => p.group === group)
+    if (inGroup.length > 0) acc[group] = inGroup
+    return acc
+  },
+  {}
+)
+
 interface GroupSectionProps {
   group: GroupKey
   params: ParamDef[]
@@ -60,19 +71,6 @@ function GroupSection({ group, params }: GroupSectionProps): JSX.Element {
 export default function ParamsPanel(): JSX.Element {
   const [advancedOpen, setAdvancedOpen] = useState(false)
   const resetParams = useAppStore((s) => s.resetParams)
-
-  const curatedParams = llamaParams.filter((p) => !p.advanced)
-  const advancedParams = llamaParams.filter((p) => p.advanced)
-
-  // Group advanced params
-  const advancedByGroup = GROUP_ORDER.reduce<Record<string, ParamDef[]>>(
-    (acc, group) => {
-      const inGroup = advancedParams.filter((p) => p.group === group)
-      if (inGroup.length > 0) acc[group] = inGroup
-      return acc
-    },
-    {}
-  )
 
   return (
     <div className="space-y-4">

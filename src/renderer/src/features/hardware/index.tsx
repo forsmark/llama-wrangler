@@ -58,6 +58,10 @@ export default function HardwarePanel(): JSX.Element {
       llamaServerPath:
         serverPath.trim() !== '' ? serverPath.trim() : base.llamaServerPath,
     })
+    setGpuName('')
+    setVramMB('')
+    setCpuThreads('')
+    setServerPath('')
   }
 
   const gpuName_display = hardware?.gpu.name ?? 'No GPU detected'
@@ -140,8 +144,9 @@ export default function HardwarePanel(): JSX.Element {
         </CollapsibleTrigger>
         <CollapsibleContent className="space-y-3 pt-2">
           <div className="space-y-1">
-            <Label className="text-xs text-zinc-400">GPU Name</Label>
+            <Label htmlFor="override-gpu-name" className="text-xs text-zinc-400">GPU Name</Label>
             <Input
+              id="override-gpu-name"
               value={gpuName}
               onChange={(e) => setGpuName(e.target.value)}
               placeholder={hardware?.gpu.name ?? 'e.g. NVIDIA RTX 4090'}
@@ -149,8 +154,9 @@ export default function HardwarePanel(): JSX.Element {
             />
           </div>
           <div className="space-y-1">
-            <Label className="text-xs text-zinc-400">VRAM (MB)</Label>
+            <Label htmlFor="override-vram" className="text-xs text-zinc-400">VRAM (MB)</Label>
             <Input
+              id="override-vram"
               type="number"
               value={vramMB}
               onChange={(e) => setVramMB(e.target.value)}
@@ -163,8 +169,9 @@ export default function HardwarePanel(): JSX.Element {
             />
           </div>
           <div className="space-y-1">
-            <Label className="text-xs text-zinc-400">CPU Threads</Label>
+            <Label htmlFor="override-threads" className="text-xs text-zinc-400">CPU Threads</Label>
             <Input
+              id="override-threads"
               type="number"
               value={cpuThreads}
               onChange={(e) => setCpuThreads(e.target.value)}
@@ -177,8 +184,9 @@ export default function HardwarePanel(): JSX.Element {
             />
           </div>
           <div className="space-y-1">
-            <Label className="text-xs text-zinc-400">llama-server path</Label>
+            <Label htmlFor="override-path" className="text-xs text-zinc-400">llama-server path</Label>
             <Input
+              id="override-path"
               value={serverPath}
               onChange={(e) => setServerPath(e.target.value)}
               placeholder={

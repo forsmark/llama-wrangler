@@ -38,16 +38,18 @@ export default function ModelPicker(): JSX.Element {
   }
 
   function handleSizeChange(value: string): void {
+    const current = useAppStore.getState().selectedModel
     const parsed = parseFloat(value)
     setSelectedModel({
-      ...selectedModel,
+      ...current,
       sizeBillion: isNaN(parsed) ? null : parsed,
     })
   }
 
   function handleQuantChange(value: string): void {
+    const current = useAppStore.getState().selectedModel
     setSelectedModel({
-      ...selectedModel,
+      ...current,
       quant: value || null,
     })
   }
@@ -119,13 +121,15 @@ export default function ModelPicker(): JSX.Element {
 
               {needsManualSize && (
                 <div className="space-y-1">
-                  <Label className="text-xs text-zinc-400">
+                  <Label htmlFor="manual-size" className="text-xs text-zinc-400">
                     Model size (billions of parameters)
                   </Label>
                   <Input
+                    id="manual-size"
                     type="number"
                     min={0}
                     step={0.1}
+                    value={selectedModel.sizeBillion != null ? String(selectedModel.sizeBillion) : ''}
                     placeholder="e.g. 7"
                     className="h-8 text-sm"
                     onChange={(e) => handleSizeChange(e.target.value)}
@@ -135,9 +139,9 @@ export default function ModelPicker(): JSX.Element {
 
               {needsManualQuant && (
                 <div className="space-y-1">
-                  <Label className="text-xs text-zinc-400">Quantization</Label>
+                  <Label htmlFor="manual-quant" className="text-xs text-zinc-400">Quantization</Label>
                   <Select onValueChange={handleQuantChange}>
-                    <SelectTrigger className="h-8 text-sm">
+                    <SelectTrigger id="manual-quant" className="h-8 text-sm">
                       <SelectValue placeholder="Select quant…" />
                     </SelectTrigger>
                     <SelectContent>

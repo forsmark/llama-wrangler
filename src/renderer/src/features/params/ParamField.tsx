@@ -18,9 +18,10 @@ interface ParamFieldProps {
 
 export default function ParamField({ def }: ParamFieldProps): JSX.Element {
   const value = useAppStore((s) => s.params[def.flag])
+  const setParam = useAppStore((s) => s.setParam)
 
   function handleChange(newValue: ParamValue): void {
-    useAppStore.getState().setParam(def.flag, newValue)
+    setParam(def.flag, newValue)
   }
 
   const validation = validateParam(def, value)
@@ -74,7 +75,7 @@ export default function ParamField({ def }: ParamFieldProps): JSX.Element {
             <Input
               id={fieldId}
               type="text"
-              value={typeof value === 'string' ? value : String(def.default ?? '')}
+              value={value != null ? String(value) : ''}
               onChange={(e) => handleChange(e.target.value)}
               placeholder={typeof def.default === 'string' ? def.default : ''}
               className="h-8 text-sm"
