@@ -1,5 +1,6 @@
-import { app, BrowserWindow, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
+import { registerHandlers } from './ipc/handlers'
 
 const isDev = process.env['NODE_ENV'] === 'development'
 
@@ -34,6 +35,7 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
+  registerHandlers()
   createWindow()
 
   app.on('activate', () => {
@@ -49,5 +51,3 @@ app.on('window-all-closed', () => {
   }
 })
 
-// IPC stubs — handlers will be added in src/main/ipc/handlers.ts
-ipcMain.handle('ping', () => 'pong')

@@ -1,4 +1,38 @@
-// IPC handler registration — stub for Task 1.
-// Handlers will be implemented in later tasks.
+import { ipcMain, dialog, clipboard } from 'electron'
+import type { Preset } from '../../../shared/types'
+import { detect } from '../detect/index'
+import { readJson, writeJson } from '../storage/json-store'
+import { presetsPath, settingsPath } from '../storage/paths'
 
-export {}
+export function registerHandlers(): void {
+  ipcMain.handle('detect-hardware', () => {
+    return detect()
+  })
+
+  ipcMain.handle('open-file-dialog', () => {
+    return dialog.showOpenDialog({
+      filters: [{ name: 'GGUF', extensions: ['gguf'] }],
+      properties: ['openFile']
+    })
+  })
+
+  ipcMain.handle('read-presets', () => {
+    return readJson<Preset[]>(presetsPath(), [])
+  })
+
+  ipcMain.handle('write-presets', (_event, presets: Preset[]) => {
+    return writeJson(presetsPath(), presets)
+  })
+
+  ipcMain.handle('read-settings', () => {
+    return readJson<Record<string, unknown>>(settingsPath(), {})
+  })
+
+  ipcMain.handle('write-settings', (_event, settings: Record<string, unknown>) => {
+    return writeJson(settingsPath(), settings)
+  })
+
+  ipcMain.handle('copy-to-clipboard', (_event, text: string) => {
+    clipboard.writeText(text)
+  })
+}
